@@ -5,10 +5,45 @@ class myXbee:
 
     puerto = serial.Serial()
 
-    def __init__(self, puertoSerie, baudrate):
-        self.puerto = serial.Serial(puertoSerie,baudrate)
-        self.puerto.close()
-        self.puerto.open()
+    def __init__(self, baudrate):
+
+        puertos = list(serial.tools.list_ports.comports())
+
+        if (len(puertos) > 0):
+
+            for i in range(0, len(puertos)):
+                try:
+                    self.puerto = serial.Serial(puertos[i].device, baudrate)
+                    self.puerto.close()
+                    self.puerto.open()
+                    return
+                except serial.SerialException:
+                    pass
+
+            raise Exception('No se han encontrado puertos serie disponibles')
+        else:
+            raise Exception('No se han encontrado puertos serie!\n')
+
+    def puertoSerieDisponible(self):
+        puertos = list(serial.tools.list_ports.comports())
+
+        if (len(puertos) > 0):
+            availablePorts = False
+
+            for i in range(0, len(puertos)):
+                try:
+                    ser = serial.Serial(puertos[i].device, 9600)
+                    ser.close()
+                    availablePorts = True
+                    return puertos[i].device
+                    break
+                except serial.SerialException:
+                    pass
+
+            if not availablePorts:
+                print('No se han encontrado puertos serie disponibles')
+        else:
+            print('No se han encontrado puertos serie!\n')
 
 
     def recibir(self):
