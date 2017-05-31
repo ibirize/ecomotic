@@ -7,6 +7,7 @@ def weather():
 
     obs = owm.weather_at_place('Mondragon, es')
     w = obs.get_weather()
+
     print(w.get_temperature())
 
     f = owm.daily_forecast("Mondragon, es")
