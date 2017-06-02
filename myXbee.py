@@ -1,4 +1,5 @@
 import serial
+import serial.tools.list_ports
 
 class myXbee:
     RESOLUTION_2_TEMPERATURE = 330/1024
@@ -16,6 +17,7 @@ class myXbee:
                     self.puerto = serial.Serial(puertos[i].device, baudrate)
                     self.puerto.close()
                     self.puerto.open()
+                    print('Se ha encontrado un puerto serie disponible.')
                     return
                 except serial.SerialException:
                     pass
@@ -34,6 +36,7 @@ class myXbee:
                 try:
                     ser = serial.Serial(puertos[i].device, 9600)
                     ser.close()
+                    ser.open()
                     availablePorts = True
                     return puertos[i].device
                     break
@@ -51,6 +54,7 @@ class myXbee:
 
         while start_delimiter != b'\x7E':
             start_delimiter = self.puerto.read()
+
 
         length = int.from_bytes(self.puerto.read(2),byteorder='big')
 

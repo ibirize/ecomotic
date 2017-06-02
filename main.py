@@ -1,33 +1,67 @@
-from pyowm import OWM, timeutils
-import serial
-import serial.tools.list_ports
+from weather import weather
 from myXbee import myXbee
 
-owm = OWM('044c76bb9e1ffb5b8f4f4b250502566f')
 
-obs = owm.weather_at_place('Mondragon,es')
 
-w = obs.get_weather()
-a= w.get_wind()
-b=w.get_temperature('celsius')
-
-print( 'ibai naiz',a,b)
 
 mes = b'0x74'
 
-try:
+#try:
 
-    xbee = myXbee(9600)
+#xbee = myXbee(9600)
 
-    message = xbee.recibir()
+#message = xbee.recibir()
 
-    print(message)
+#print(message)
 
-    print(xbee.frame2adcvalue(message))
+#print(xbee.frame2adcvalue(message))
 
-    print(xbee.getFrameSource(message))
+#print(xbee.getFrameSource(message))
 
 
-except Exception:
-    print('error')
+#except Exception as excepcion:
+#    print(excepcion.args)
 
+
+
+def main():
+    serial = False
+    while (serial != True):
+        try:
+
+            xbee = myXbee(9600)
+
+            #message = xbee.recibir()
+            #print(message)
+            print(xbee)
+            serial = True
+
+
+            #print(xbee.frame2adcvalue(message))
+
+            #print(xbee.getFrameSource(message))
+
+
+        except Exception as excepcion:
+            print(excepcion.args)
+
+
+    weather.recibirTemperatura(weather)
+
+
+main()
+nubes = weather.estaNublado(weather)
+print(nubes)
+
+#if nubes.will_be_sunny_at(timeutils.next_hour()) == True:
+    # codigo para sacar paneles
+  #  print('Se van a sacar los paneles')
+
+#if nubes.will_be_sunny_at(timeutils.next_hour()) == False:
+    # codigo para guardar los paneles
+ #   print('Se van a guardar los paneles')
+
+    # os.system("devmem2 0xfffffff0 w 0x1ff00210")
+
+    # os.system("devmem2 0x1ff90000 w 0x00000001")
+#
