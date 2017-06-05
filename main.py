@@ -23,7 +23,6 @@ mes = b'0x74'
 #    print(excepcion.args)
 
 
-
 def main():
     serial = False
     recogerTiempo = True
