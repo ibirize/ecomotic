@@ -26,8 +26,9 @@ mes = b'0x74'
 
 def main():
     serial = False
-    while (serial != True):
-        try:
+    recogerTiempo = True
+   # while (serial != True):
+    try:
 
             xbee = myXbee(9600)
 
@@ -42,11 +43,32 @@ def main():
             #print(xbee.getFrameSource(message))
 
 
-        except Exception as excepcion:
+    except Exception as excepcion:
             print(excepcion.args)
 
-
-    weather.recibirTemperatura(weather)
+    while(1):
+        if(recogerTiempo):
+            weather.recibirTemperatura(weather)
+            tiempo = weather.queTiempoHace(weather)
+            if tiempo==0:
+                #estaNublado
+                print("esta nublado")
+            if tiempo==1:
+                #haySol
+                print("esta soleado")
+            if tiempo == 2:
+                #estaLloviendo
+                print("esta lloviendo")
+            if tiempo == 3:
+                #estaNevando
+                print("esta nevando")
+            if tiempo == 4:
+                #hayNiebla
+                print("hay niebla")
+            if tiempo == 5:
+                #hayTormenta
+                print("hay tormenta")
+            recogerTiempo = False
 
 
 main()

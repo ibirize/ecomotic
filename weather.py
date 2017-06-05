@@ -4,7 +4,7 @@ class weather():
     owm = OWM("044c76bb9e1ffb5b8f4f4b250502566f")
     obs = owm.weather_at_place('Mondragon, es')
     w = obs.get_weather()
-
+    tiempo = owm.daily_forecast("Mondragon, es")
     # Tiempo y temperatura actual en mondragon
     def recibirTemperatura(self):
 
@@ -13,36 +13,43 @@ class weather():
         print(tem)
 
     def estaNublado(self):
-        nublado = self.owm.daily_forecast("Mondragon, es")
-        hayNubes = nublado.will_be_rainy_at(timeutils.next_hour())
-        return  hayNubes
+        nublado = self.tiempo.will_be_cloudy_at(timeutils.next_hour())
+        return  nublado
 
-    def salidaSol(self):
-        amanecer = self.w.get_sunrise_time('iso')
-        horaAmanecer = int(amanecer[11:13]) + 2
-        minutoAmanecer = int(amanecer[14:16])
-        print('Hora amanecer =', horaAmanecer, ':', minutoAmanecer)
+    def haceSol(self):
+        soleado = self.tiempo.will_be_sunny_at(timeutils.next_hour())
+        return soleado
 
+    def hayTormenta(self):
+        tormenta = self.tiempo.will_be_stormy_at(timeutils.next_hour())
+        return tormenta
 
-    def puestaSol(self):
-        atardecer = self.w.get_sunset_time('iso')
-        horaAtardecer = int(atardecer[11:13]) + 2
-        minutoAtardecer = int(atardecer[14:16])
-        print('Hora atardecer =', horaAtardecer, ':', minutoAtardecer)
+    def hayNiebla(self):
+        niebla = self.tiempo.will_be_foggy_at(timeutils.next_hour())
+        return  niebla
 
+    def estaLloviendo(self):
+        lluvia = self.tiempo.will_be_rainy_at(timeutils.next_hour())
+        return lluvia
 
-    def rotacionPaneles(self):
-        # inclinacion del panel solar latitud +18 grados en invierno y en verano la latitud -18 grados
-        # Rotacion del panel
-
-        minutosParaRotacion = ((self.horaAtardecer * 60) + 28) - ((self.horaAmanecer * 60) + 44)
-        gradosPorMinuto = 180 / minutosParaRotacion
-        print('Grados a rotar por minuto', gradosPorMinuto)
+    def estaNevando(self):
+        nieve = self.tiempo.will_be_snowy_at(timeutils.next_hour())
+        return nieve
 
 
 
-
-
-
+    def queTiempoHace(self):
+        if(self.estaNublado(self)):
+            return 0
+        if(self.haceSol(self)):
+            return 1
+        if(self.estaLloviendo(self)):
+            return 2
+        if(self.estaNevando(self)):
+            return 3
+        if(self.hayNiebla(self)):
+            return 4
+        if(self.hayTormenta(self)):
+            return 5
 
 
