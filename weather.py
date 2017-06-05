@@ -1,11 +1,12 @@
 from pyowm import OWM, timeutils
 
-class weather():
+class weather:
     owm = OWM("044c76bb9e1ffb5b8f4f4b250502566f")
-    obs = owm.weather_at_place('Mondragon, es')
+    obs = owm.weather_at_place('Vitoria, es')
     w = obs.get_weather()
-    tiempo = owm.daily_forecast("Mondragon, es")
+    tiempo = owm.daily_forecast("Vitoria, es")
     # Tiempo y temperatura actual en mondragon
+
     def recibirTemperatura(self):
 
         temperatura = self.w.get_temperature('celsius')
@@ -39,9 +40,9 @@ class weather():
 
 
     def queTiempoHace(self):
-        if(self.estaNublado(self)):
+        if (self.haceSol(self)):
             return 0
-        if(self.haceSol(self)):
+        if (self.estaNublado(self)):
             return 1
         if(self.estaLloviendo(self)):
             return 2
@@ -51,5 +52,7 @@ class weather():
             return 4
         if(self.hayTormenta(self)):
             return 5
+        return -1
+
 
 

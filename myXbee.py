@@ -2,7 +2,7 @@ import serial
 import serial.tools.list_ports
 
 class myXbee:
-    RESOLUTION_2_TEMPERATURE = 330/1024
+    RESOLUTION_2_mV = 1200 / 1024
 
     puerto = serial.Serial()
 
@@ -64,7 +64,7 @@ class myXbee:
 
     def frame2adcvalue(self,frame):
         voltage = int.from_bytes(frame,byteorder='big') & 0x3FF
-        temperature = voltage*self.RESOLUTION_2_TEMPERATURE
+        temperature = voltage*self.RESOLUTION_2_mV
         return temperature
 
     def getFrameSource(self,frame):

@@ -1,7 +1,7 @@
 from weather import weather
-from myXbee import myXbee
-
-
+from controlPaneles import controlPaneles
+from controlSensores import controlSensores
+import threading
 
 
 mes = b'0x74'
@@ -24,37 +24,23 @@ mes = b'0x74'
 
 
 def main():
-    serial = False
+
+
     recogerTiempo = True
-   # while (serial != True):
-    try:
+    threading.Thread(target=controlSensores.control(controlSensores), name='Control de sensores')
 
-            xbee = myXbee(9600)
-
-            #message = xbee.recibir()
-            #print(message)
-            print(xbee)
-            serial = True
-
-
-            #print(xbee.frame2adcvalue(message))
-
-            #print(xbee.getFrameSource(message))
-
-
-    except Exception as excepcion:
-            print(excepcion.args)
-
-    while(1):
-        if(recogerTiempo):
+    while(True):
+        if(recogerTiempo):#una vez al dia
             weather.recibirTemperatura(weather)
             tiempo = weather.queTiempoHace(weather)
             if tiempo==0:
+                # haySol
+                print("esta soleado")
+                # sacarPaneles
+                controlPaneles.sacarPaneles(controlPaneles)
+            if tiempo==1:
                 #estaNublado
                 print("esta nublado")
-            if tiempo==1:
-                #haySol
-                print("esta soleado")
             if tiempo == 2:
                 #estaLloviendo
                 print("esta lloviendo")
@@ -67,22 +53,13 @@ def main():
             if tiempo == 5:
                 #hayTormenta
                 print("hay tormenta")
+            if tiempo ==-1:
+                print("Valor por defecto")
+                #cerrarPaneles
             recogerTiempo = False
 
 
+
+
+
 main()
-nubes = weather.estaNublado(weather)
-print(nubes)
-
-#if nubes.will_be_sunny_at(timeutils.next_hour()) == True:
-    # codigo para sacar paneles
-  #  print('Se van a sacar los paneles')
-
-#if nubes.will_be_sunny_at(timeutils.next_hour()) == False:
-    # codigo para guardar los paneles
- #   print('Se van a guardar los paneles')
-
-    # os.system("devmem2 0xfffffff0 w 0x1ff00210")
-
-    # os.system("devmem2 0x1ff90000 w 0x00000001")
-#
