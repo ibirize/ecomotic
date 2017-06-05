@@ -1,4 +1,4 @@
-from  myXbee import myXbee
+from  myXbee import *
 from controlPaneles import controlPaneles
 
 class controlSensores:
@@ -16,18 +16,20 @@ class controlSensores:
 
         serial = False
        # while (serial != True):
+
         try:
 
-                xbee = myXbee(9600)
+            xbee = myXbee(9600)
 
-                message = xbee.recibir()
-                print(message)
-                print(xbee)
-                serial = True
+            #message = xbee.recibir()
+            message=b'hola'
+            print(message)
+            print(xbee)
+            serial = True
 
-                print(xbee.frame2adcvalue(message))
+            print(xbee.frame2adcvalue(message))
 
-                print(xbee.getFrameSource(message))
+            print(xbee.getFrameSource(message))
 
 
         except Exception as excepcion:
@@ -35,7 +37,6 @@ class controlSensores:
 
         while(True):
             mensajeRecibido = xbee.recibir()
-            print(mensajeRecibido)
 
             origenMensaje = xbee.getFrameSource(mensajeRecibido)
 
