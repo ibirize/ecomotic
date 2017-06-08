@@ -58,7 +58,7 @@ def main():
                 #cerrarPaneles
             recogerTiempo = False
 
-
+    controlSensores.temperatura(controlSensores, controlSensores.valorTemperatura)
 
 
 
