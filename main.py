@@ -27,7 +27,7 @@ def main():
 
 
     recogerTiempo = True
-    threading.Thread(target=controlSensores.control(controlSensores), name='Control de sensores')
+    threading.Thread(target=controlSensores.control(), name='Control de sensores')
 
     while(True):
         if(recogerTiempo):#una vez al dia
