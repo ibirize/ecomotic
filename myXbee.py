@@ -34,7 +34,11 @@ class myXbee:
 
             for i in range(0, len(puertos)):
                 try:
-                    ser = serial.Serial(puertos[i].device, 9600)
+                    ser = serial.Serial(port='/dev/ttyUSB0',
+                                            baudrate=9600,
+                                            parity=serial.PARITY_ODD,
+                                            stopbits=serial.STOPBITS_TWO,
+                                            bytesize=serial.SEVENBITS)#(puertos[i].device, 9600)
                     ser.close()
                     ser.open()
                     availablePorts = True
