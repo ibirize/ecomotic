@@ -4,14 +4,18 @@ from controlPaneles import controlPaneles
 class controlSensores:
 
     LM35="0x13a200400a42f6"
-    LUXOMETRO="0x13a200406a8aa3"
-    ANEMOMETRO="0x13a200406a8ace"
+    LUXOMETRO="0x13a200406a8ace"
+    ANEMOMETRO="0x13a200406a8aa3"
     TEMPERATURA_MINIMA=18
     TEMPERATURA_MAXIMA=23
     mV_A_Grados = 10
     VELOCIDAD_VIENTO_MAXIMA = 30
     valorLuxes = 0
     valorTemperatura = 0
+    viento=0
+
+    def __init__(self):
+        pass
 
     def control(self):
 
@@ -23,7 +27,6 @@ class controlSensores:
                 xbee = myXbee(9600)
 
                 message = xbee.recibir()
-                message=b'hola'
                 print(message)
                 print(xbee)
                 serial = True
@@ -44,20 +47,20 @@ class controlSensores:
             if(origenMensaje==self.LM35):
                 valorTemperatura = xbee.frame2adcvalue(mensajeRecibido) / self.mV_A_Grados
 
-                self.temperatura(self, valorTemperatura)
+                self.temperatura(valorTemperatura)
 
             if(origenMensaje==self.LUXOMETRO):
                 valorLuxes = xbee.frame2adcvalue(mensajeRecibido)
-                self.luxometro(self, valorLuxes)
+                self.luxometro(valorLuxes)
 
             if(origenMensaje==self.ANEMOMETRO):
                 viento = xbee.frame2adcvalue(mensajeRecibido)
-                self.anemometro(self, viento)
+                self.anemometro(viento)
 
     def luxometro(self, valorLuxes):
 
 
-        luxes = (10 * pow((valorLuxes - 284.62) / 69.22)) / 0.092903
+        luxes = (pow(10,(valorLuxes - 284.62) / 69.22)) / 0.092903
         if (luxes < 50 and controlPaneles.ABIERTO == True):
             controlPaneles.cerrarPaneles(controlPaneles)
 

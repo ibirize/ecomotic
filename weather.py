@@ -40,17 +40,17 @@ class weather:
 
 
     def queTiempoHace(self):
-        if (self.haceSol(self)):
+        if (self.haceSol()):
             return 0
-        if (self.estaNublado(self)):
+        if (self.estaNublado()):
             return 1
-        if(self.estaLloviendo(self)):
+        if(self.estaLloviendo()):
             return 2
-        if(self.estaNevando(self)):
+        if(self.estaNevando()):
             return 3
-        if(self.hayNiebla(self)):
+        if(self.hayNiebla()):
             return 4
-        if(self.hayTormenta(self)):
+        if(self.hayTormenta()):
             return 5
         return -1
 
