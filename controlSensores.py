@@ -3,16 +3,20 @@ from controlPaneles import controlPaneles
 
 class controlSensores:
 
-    LM35="0x13a200400a42f6"
-    LUXOMETRO="0x13a200406a8ace"
-    ANEMOMETRO="0x13a200406a8aa3"
+    ID_LM35="0x13a200400a42f6"
+    ID_LUXOMETRO="0x13a200406a8ace"
+    ID_ANEMOMETRO="0x13a200406a8aa3"
     TEMPERATURA_MINIMA=18
     TEMPERATURA_MAXIMA=23
     mV_A_Grados = 10
-    VELOCIDAD_VIENTO_MAXIMA = 30
+    VELOCIDAD_VIENTO_MAXIMA = 60
     valorLuxes = 0
     valorTemperatura = 0
     viento=0
+    TEMPERATURA_ADECUADA=False
+    SUFICIENTE_LUZ=False
+    DEMASIADO_VIENTO=False
+
 
     def __init__(self):
         pass
@@ -25,15 +29,8 @@ class controlSensores:
             try:
 
                 xbee = myXbee(9600)
-
                 message = xbee.recibir()
-                print(message)
-                print(xbee)
                 serial = True
-
-                print(xbee.frame2adcvalue(message))
-
-                print(xbee.getFrameSource(message))
 
 
             except Exception as excepcion:
@@ -44,21 +41,24 @@ class controlSensores:
 
             origenMensaje = xbee.getFrameSource(mensajeRecibido)
 
-            if(origenMensaje==self.LM35):
+            if(origenMensaje==self.ID_LM35):
+                print("LM35")
                 valorTemperatura = xbee.frame2adcvalue(mensajeRecibido) / self.mV_A_Grados
-
                 self.temperatura(valorTemperatura)
 
-            if(origenMensaje==self.LUXOMETRO):
+            if(origenMensaje==self.ID_LUXOMETRO):
+                print("LUXOMETRO")
                 valorLuxes = xbee.frame2adcvalue(mensajeRecibido)
                 self.luxometro(valorLuxes)
 
-            if(origenMensaje==self.ANEMOMETRO):
-                viento = xbee.frame2adcvalue(mensajeRecibido)
+            if(origenMensaje==self.ID_ANEMOMETRO):
+                print("ANEMOMETRO")
+                finDatos = mensajeRecibido.find(b'\x0D', 0, len(mensajeRecibido))
+                datosAnemometro = mensajeRecibido[12:finDatos]
+                viento = float(datosAnemometro)
                 self.anemometro(viento)
 
     def luxometro(self, valorLuxes):
-
 
         luxes = (pow(10,(valorLuxes - 284.62) / 69.22)) / 0.092903
         if (luxes < 50 and controlPaneles.ABIERTO == True):
@@ -73,16 +73,17 @@ class controlSensores:
 
         if (viento < self.VELOCIDAD_VIENTO_MAXIMA and controlPaneles.ABIERTO == False):
             controlPaneles.sacarPaneles(controlPaneles)
+            self.VALOR_ANEMOMETRO=1
+
         if (viento > self.VELOCIDAD_VIENTO_MAXIMA and controlPaneles.ABIERTO == True):
-            controlPaneles.sacarPaneles(controlPaneles)
+            controlPaneles.cerrarPaneles(controlPaneles)
 
     def temperatura(self, valorTemperatura):
 
         if (valorTemperatura < self.TEMPERATURA_MINIMA):
-            print("Subir persianas", valorTemperatura)
             controlPaneles.subirPersiana(controlPaneles)
+
         if (valorTemperatura > self.TEMPERATURA_MAXIMA):
-            print("Bajar persianas", valorTemperatura)
             controlPaneles.bajarPersiana(controlPaneles)
         else:
             print("La temperatura es adecuada,", valorTemperatura)

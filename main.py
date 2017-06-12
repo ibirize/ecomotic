@@ -9,15 +9,14 @@ mes = b'0x74'
 
 def main():
     recogerTiempo = True
-    proximaLecturaSegundos = 5
+    proximaLecturaSegundos = 60
     controlS = controlSensores()
     tiempo = weather()
     threading.Thread(target=controlS.control, name='Control de sensores').start()
 
     while(True):
-        print("dentro while")
         if(recogerTiempo==False):
-            print("dentroIF")
+
             time.sleep(proximaLecturaSegundos)   #define el tiempo que tiene que esperar hasta
                             # realizar la proxima lectura del tiempo de la pagina web
             recogerTiempo=True
@@ -45,11 +44,12 @@ def main():
                 print("hay niebla")
             if tiemp == 5:
                 #hayTormenta
-                print("hay tormenta")"""
-            if tiemp ==-1:
-                print("Valor por defecto")
+                print("hay tormenta")
+            #if tiemp ==-1:
+             #   print("Valor por defecto")
                 #cerrarPaneles
-            else:
+                """
+            if tiemp!=0:
                 print("Meteorologia desfavorable se guardarán los paneles")
                 controlPaneles.cerrarPaneles(controlPaneles)
             recogerTiempo = False

@@ -33,18 +33,15 @@ class controlPaneles:
 
         minutosParaRotacion = self.puestaSol(self)-self.salidaSol(self)
         gradosPorMinuto = 180 / minutosParaRotacion
-        #print('Grados a rotar por minuto', gradosPorMinuto)
         hora =time.strftime("%H:%M") #Formato de 24 horas
-        #print("Hora actual :", hora)
-        #print("Hora actual :", hora[:2])
-        #print("minuto actual :", hora[3:5])
         tiempoActual= (int(hora[:2])*60)+int(hora[3:5])
         grados = gradosPorMinuto * (tiempoActual-self.salidaSol(self))
-        print("Grados: ",grados)
         gradosInt = int(grados)
         if(gradosInt<= 16):
+            print("Grados:",gradosInt)
             return "0x0000000%x" % gradosInt
         else:
+            print("Grados:", gradosInt)
             return "0x000000%x" % gradosInt
 
 
@@ -64,7 +61,7 @@ class controlPaneles:
         self.ABIERTO==False
 
     def subirPersiana(self):
-        print('Se van a subir la persiana')
+        print('Se va a subir la persiana')
         gradosInt = 180
         posicionPersiana = "0x000000%x" % gradosInt
        # os.system("devmem2 0xfffffff0 w "+posicionPersiana)
