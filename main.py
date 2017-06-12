@@ -11,6 +11,7 @@ def main():
     recogerTiempo = True
     proximaLecturaSegundos = 60
     controlS = controlSensores()
+    paneles = controlPaneles()
     tiempo = weather()
     threading.Thread(target=controlS.control, name='Control de sensores').start()
 
@@ -28,7 +29,7 @@ def main():
                 # haySol
                 print("esta soleado")
                 # sacarPaneles
-                controlPaneles.sacarPaneles(controlPaneles)
+                paneles.sacarPaneles()
             """ if tiemp==1:
                 #estaNublado
                 print("esta nublado")
@@ -51,7 +52,7 @@ def main():
                 """
             if tiemp!=0:
                 print("Meteorologia desfavorable se guardarán los paneles")
-                controlPaneles.cerrarPaneles(controlPaneles)
+                paneles.cerrarPaneles()
             recogerTiempo = False
 
 

@@ -17,6 +17,8 @@ class controlSensores:
     SUFICIENTE_LUZ=False
     DEMASIADO_VIENTO=False
 
+    paneles = controlPaneles()
+
 
     def __init__(self):
         pass
@@ -61,29 +63,29 @@ class controlSensores:
     def luxometro(self, valorLuxes):
 
         luxes = (pow(10,(valorLuxes - 284.62) / 69.22)) / 0.092903
-        if (luxes < 50 and controlPaneles.ABIERTO == True):
-            controlPaneles.cerrarPaneles(controlPaneles)
+        if (luxes < 50 and  self.paneles.ABIERTO == True):
+            self.paneles.cerrarPaneles()
 
-        if (luxes > 50 and controlPaneles.ABIERTO == False):
-            controlPaneles.sacarPaneles(controlPaneles)
+        if (luxes > 50 and  self.paneles.ABIERTO == False):
+            self.paneles.sacarPaneles()
 
     def anemometro(self, viento):
 
 
 
-        if (viento < self.VELOCIDAD_VIENTO_MAXIMA and controlPaneles.ABIERTO == False):
-            controlPaneles.sacarPaneles(controlPaneles)
+        if (viento < self.VELOCIDAD_VIENTO_MAXIMA and  self.paneles.ABIERTO == False):
+            self.paneles.sacarPaneles()
             self.VALOR_ANEMOMETRO=1
 
-        if (viento > self.VELOCIDAD_VIENTO_MAXIMA and controlPaneles.ABIERTO == True):
-            controlPaneles.cerrarPaneles(controlPaneles)
+        if (viento > self.VELOCIDAD_VIENTO_MAXIMA and  self.paneles.ABIERTO == True):
+            self.paneles.cerrarPaneles()
 
     def temperatura(self, valorTemperatura):
 
         if (valorTemperatura < self.TEMPERATURA_MINIMA):
-            controlPaneles.subirPersiana(controlPaneles)
+            self.paneles.subirPersiana()
 
         if (valorTemperatura > self.TEMPERATURA_MAXIMA):
-            controlPaneles.bajarPersiana(controlPaneles)
+            self.paneles.bajarPersiana()
         else:
             print("La temperatura es adecuada,", valorTemperatura)
