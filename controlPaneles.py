@@ -57,6 +57,21 @@ class controlPaneles:
 
 
 
+    def bajarPersiana(self):
+        print('Se va a bajar la persiana')
+        posiscionPersiana = 0x00000000
+        # os.system("devmem2 0xfffffff0 w "+posicionPersiana)
+        self.ABIERTO==False
+
+    def subirPersiana(self):
+        print('Se van a subir la persiana')
+        gradosInt = 180
+        posicionPersiana = "0x000000%x" % gradosInt
+       # os.system("devmem2 0xfffffff0 w "+posicionPersiana)
+        self.ABIERTO==True
+
+
+
     def cerrarPaneles(self):
         print('Se van a guardar los paneles')
         posicionPaneles = 0x00000000

@@ -80,7 +80,9 @@ class controlSensores:
 
         if (valorTemperatura < self.TEMPERATURA_MINIMA):
             print("Subir persianas", valorTemperatura)
+            controlPaneles.subirPersiana(controlPaneles)
         if (valorTemperatura > self.TEMPERATURA_MAXIMA):
             print("Bajar persianas", valorTemperatura)
+            controlPaneles.bajarPersiana(controlPaneles)
         else:
             print("La temperatura es adecuada,", valorTemperatura)
