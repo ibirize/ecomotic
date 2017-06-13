@@ -9,11 +9,11 @@ mes = b'0x74'
 
 def main():
     recogerTiempo = True
-    proximaLecturaSegundos = 86400
+    proximaLecturaSegundos = 5#86400
     controlS = controlSensores()
     tiempo = weather()
     paneles = controlPaneles()
-    threading.Thread(target=controlS.control, name='Control de sensores').start()
+    #threading.Thread(target=controlS.control, name='Control de sensores').start()
 
     while (True):
         if (recogerTiempo == False):

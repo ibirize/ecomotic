@@ -17,7 +17,7 @@ class myXbee:
                     self.puerto = serial.Serial(puertos[i].device, baudrate)
                     self.puerto.close()
                     self.puerto.open()
-                    print('Se ha encontrado un puerto serie disponible.')
+                    print 'Se ha encontrado un puerto serie disponible.'
                     return
                 except serial.SerialException:
                     pass
@@ -49,9 +49,9 @@ class myXbee:
                     pass
 
             if not availablePorts:
-                print('No se han encontrado puertos serie disponibles')
+                print 'No se han encontrado puertos serie disponibles'
         else:
-            print('No se han encontrado puertos serie!\n')
+            print 'No se han encontrado puertos serie!\n'
 
 
     def recibir(self):
