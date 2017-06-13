@@ -60,19 +60,19 @@ class myXbee:
         while start_delimiter != b'\x7E':
             start_delimiter = self.puerto.read()
 
-
-        length = int.from_bytes(self.puerto.read(2),byteorder='big')
+        length = int(self.puerto.read(2).encode('hex'), 16)
+        #length = int.from_bytes(self.puerto.read(2),byteorder='big')
 
         message = self.puerto.read(length)
 
         return message
 
     def frame2adcvalue(self,frame):
-        voltage = int.from_bytes(frame,byteorder='big') & 0x3FF
+        voltage = int(frame.encode('hex'), 16) & 0x3FF
         temperature = voltage*self.RESOLUTION_2_mV
         return temperature
 
     def getFrameSource(self,frame):
         sourceAddress = frame[1:9]
-        return hex(int.from_bytes(sourceAddress,byteorder='big'))
-
+        #return hex(int.from_bytes(sourceAddress,byteorder='big'))
+        return hex(int(sourceAddress.encode('hex'), 16))

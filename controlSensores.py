@@ -31,7 +31,6 @@ class controlSensores:
             try:
 
                 xbee = myXbee(9600)
-                message = xbee.recibir()
                 serial = True
 
 
@@ -62,23 +61,29 @@ class controlSensores:
 
     def luxometro(self, valorLuxes):
 
-        luxes = (pow(10,(valorLuxes - 284.62) / 69.22)) / 0.092903
+        luxes = (pow(10,((valorLuxes/2) - 284.62) / 69.22)) / 0.092903
         if (luxes < 50 and  self.paneles.ABIERTO == True):
             self.paneles.cerrarPaneles()
+            self.SUFICIENTE_LUZ = False
 
         if (luxes > 50 and  self.paneles.ABIERTO == False):
-            self.paneles.sacarPaneles()
+            if(self.DEMASIADO_VIENTO==True):
+                self.paneles.sacarPaneles()
+            self.SUFICIENTE_LUZ = True
+
 
     def anemometro(self, viento):
 
 
 
         if (viento < self.VELOCIDAD_VIENTO_MAXIMA and  self.paneles.ABIERTO == False):
-            self.paneles.sacarPaneles()
-            self.VALOR_ANEMOMETRO=1
+            if(self.SUFICIENTE_LUZ==True):
+                self.paneles.sacarPaneles()
+            self.DEMASIADO_VIENTO = True
 
         if (viento > self.VELOCIDAD_VIENTO_MAXIMA and  self.paneles.ABIERTO == True):
             self.paneles.cerrarPaneles()
+            self.DEMASIADO_VIENTO = False
 
     def temperatura(self, valorTemperatura):
 

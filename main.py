@@ -11,21 +11,20 @@ def main():
     recogerTiempo = True
     proximaLecturaSegundos = 60
     controlS = controlSensores()
-    paneles = controlPaneles()
     tiempo = weather()
+    paneles = controlPaneles()
     threading.Thread(target=controlS.control, name='Control de sensores').start()
 
-    while(True):
-        if(recogerTiempo==False):
+    while (True):
+        if (recogerTiempo == False):
+            time.sleep(proximaLecturaSegundos)  # define el tiempo que tiene que esperar hasta
+            # realizar la proxima lectura del tiempo de la pagina web
+            recogerTiempo = True
 
-            time.sleep(proximaLecturaSegundos)   #define el tiempo que tiene que esperar hasta
-                            # realizar la proxima lectura del tiempo de la pagina web
-            recogerTiempo=True
-
-        if(recogerTiempo):#una vez al dia
+        if (recogerTiempo):  # una vez al dia
             tiempo.recibirTemperatura()
             tiemp = tiempo.queTiempoHace()
-            if tiemp==0:
+            if tiemp == 0:
                 # haySol
                 print("esta soleado")
                 # sacarPaneles
@@ -50,13 +49,10 @@ def main():
              #   print("Valor por defecto")
                 #cerrarPaneles
                 """
-            if tiemp!=0:
-                print("Meteorologia desfavorable se guardarán los paneles")
+            if tiemp != 0:
+                print("Meteorologia desfavorable se guardaran los paneles")
                 paneles.cerrarPaneles()
             recogerTiempo = False
-
-
-
 
 
 main()
