@@ -11,7 +11,7 @@ class weather:
 
         temperatura = self.w.get_temperature('celsius')
         tem = temperatura.get('temp')
-        print(tem)
+        print 'La temperatura segun OWM:', tem
 
     def estaNublado(self):
         nublado = self.tiempo.will_be_cloudy_at(timeutils.next_hour())

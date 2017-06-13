@@ -9,7 +9,7 @@ mes = b'0x74'
 
 def main():
     recogerTiempo = True
-    proximaLecturaSegundos = 60
+    proximaLecturaSegundos = 86400
     controlS = controlSensores()
     tiempo = weather()
     paneles = controlPaneles()
@@ -26,7 +26,7 @@ def main():
             tiemp = tiempo.queTiempoHace()
             if tiemp == 0:
                 # haySol
-                print("esta soleado")
+                print 'Hace sol, se van a sacar los paneles'
                 # sacarPaneles
                 paneles.sacarPaneles()
             """ if tiemp==1:
@@ -50,7 +50,7 @@ def main():
                 #cerrarPaneles
                 """
             if tiemp != 0:
-                print("Meteorologia desfavorable se guardaran los paneles")
+                print 'Meteorologia desfavorable se guardaran los paneles'
                 paneles.cerrarPaneles()
             recogerTiempo = False
 

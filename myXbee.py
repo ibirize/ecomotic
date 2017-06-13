@@ -2,7 +2,7 @@ import serial
 import serial.tools.list_ports
 
 class myXbee:
-    RESOLUTION_2_mV = 1200 / 1024
+    RESOLUTION_2_mV = float(1200) / float(1024)
 
     puerto = serial.Serial()
 
