@@ -40,10 +40,10 @@ class controlPaneles:
         grados = gradosPorMinuto * (tiempoActual-self.salidaSol())
         gradosInt = int(grados)
         if(gradosInt<= 16):
-            print 'Grados:', gradosInt
+            print ('Grados:', gradosInt)
             return "0x0000000%x" % gradosInt
         else:
-            print 'Grados:', gradosInt
+            print ('Grados:', gradosInt)
             return "0x000000%x" % gradosInt
 
 
@@ -51,31 +51,31 @@ class controlPaneles:
     def sacarPaneles(self):
         self.PANELES_FUERA=True
         posicionPaneles = self.rotacionPaneles()
-        print 'Sacando paneles a los grados', posicionPaneles
-       # os.system("devmem2 0xfffffff0 w "+posicionPaneles)
+        print ('Sacando paneles a los grados', posicionPaneles)
+        os.system("devmem2 0x41210000 w " + posicionPaneles)
         self.PANELES_FUERA = True
 
-
+    def cerrarPaneles(self):
+        print ('Guardando los paneles')
+        self.PANELES_FUERA=False
+        posicionPaneles = '0x00000000'
+        os.system("devmem2 0x41210000 w " + posicionPaneles)
+        self.PANELES_FUERA = False
 
     def bajarPersiana(self):
         if(self.PERSIANA_SUBIDA==True):
-            print 'Se va a bajar la persiana'
-            posiscionPersiana = 0x00000000
-            # os.system("devmem2 0xfffffff0 w "+posicionPersiana)
+            print ('Se va a bajar la persiana')
+            posicionPersiana = '0x00000000'
+            os.system("devmem2 0x41210004 w " + posicionPersiana)
         self.PERSIANA_SUBIDA = False
 
     def subirPersiana(self):
-        print 'Se va a subir la persiana'
+        print ('Se va a subir la persiana')
         gradosInt = 180
         posicionPersiana = "0x000000%x" % gradosInt
-       # os.system("devmem2 0xfffffff0 w "+posicionPersiana)
+        os.system("devmem2 0x41210004 w " + posicionPersiana)
         self.PERSIANA_SUBIDA = True
 
 
 
-    def cerrarPaneles(self):
-        print'Guardando los paneles'
-        self.PANELES_FUERA=False
-        posicionPaneles = 0x00000000
-        # os.system("devmem2 0xfffffff0 w "+posicionPaneles)
-        self.PANELES_FUERA = False
+
