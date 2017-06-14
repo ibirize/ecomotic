@@ -1,4 +1,4 @@
-import controlSensores
+from controlSensores import controlSensores
 
 
 controlS = controlSensores()

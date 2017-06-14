@@ -67,14 +67,21 @@ class myXbee:
 
         return message
 
-    def frame2adcvalue(self,frame):
+    def frame2adcvalue(self, frame):
         voltage = int(frame.encode('hex'), 16) & 0x3FF
-        temperature = voltage*self.RESOLUTION_2_mV
-        return temperature
+        print 'voltage'
+        print voltage
+        milivoltios = voltage*self.RESOLUTION_2_mV
+        print 'milivoltios'
+        print milivoltios
+        return milivoltios
 
-    def getFrameSource(self,frame):
+    def getFrameSource(self, frame):
         sourceAddress = frame[1:9]
+        print int(sourceAddress.encode('hex'), 16)
+        idS = hex(int(sourceAddress.encode('hex'), 16))
+        id_sensor = idS[:-1]
         #return hex(int.from_bytes(sourceAddress,byteorder='big'))
-        return hex(int(sourceAddress.encode('hex'), 16))
+        return id_sensor
 
 

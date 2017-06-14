@@ -31,21 +31,30 @@ class controlSensores:
             try:
 
                 xbee = myXbee(9600)
+                print 'Dentro del try controlSensores'
                 message = xbee.recibir()
+                print 'despues message'
                 serial = True
+
 
 
             except Exception as excepcion:
                     print(excepcion.args)
 
         while(True):
+            print 'Entra en while controlSensores antes de mensajeRecibido'
             mensajeRecibido = xbee.recibir()
+            mensajeHex = hex(int(mensajeRecibido.encode('hex'), 16))
+            print mensajeHex
 
             origenMensaje = xbee.getFrameSource(mensajeRecibido)
+            print origenMensaje
 
             if(origenMensaje==self.ID_LM35):
                 print 'LM35'
                 valorTemperatura = xbee.frame2adcvalue(mensajeRecibido) / self.mV_A_Grados
+                print 'valorTemperatura'
+                print valorTemperatura
                 self.temperatura(valorTemperatura)
 
             if(origenMensaje==self.ID_LUXOMETRO):
@@ -56,7 +65,9 @@ class controlSensores:
             if(origenMensaje==self.ID_ANEMOMETRO):
                 print 'ANEMOMETRO'
                 finDatos = mensajeRecibido.find(b'\x0D', 0, len(mensajeRecibido))
+                print finDatos
                 datosAnemometro = mensajeRecibido[12:finDatos]
+                print datosAnemometro
                 viento = float(datosAnemometro)
                 self.anemometro(viento)
 
@@ -106,6 +117,8 @@ class controlSensores:
             else:
                 print 'Los paneles seguiran guardados, demasiado viento'
 
+
+
     def temperatura(self, valorTemperatura):
 
         if (valorTemperatura < self.TEMPERATURA_MINIMA and self.paneles.PERSIANA_SUBIDA == False):
@@ -113,7 +126,7 @@ class controlSensores:
             if(self.TEMPERATURA_ADECUADA == False):
                 self.paneles.subirPersiana()
 
-        if (valorTemperatura > self.TEMPERATURA_MAXIMA and self.paneles.PERSIANA_SUBIDA == True):
+        elif (valorTemperatura > self.TEMPERATURA_MAXIMA and self.paneles.PERSIANA_SUBIDA == True):
             self.TEMPERATURA_ADECUADA = False
             if (self.TEMPERATURA_ADECUADA == False):
                 self.paneles.bajarPersiana()
